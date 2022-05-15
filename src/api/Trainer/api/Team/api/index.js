@@ -6,16 +6,16 @@ router.get('/', function(req, res, next) {
   res.send({ title: 'Team list' });
 });
 
-router.get('/:name', function(req, res, next) {
-  res.send({ title: 'Team data', ...req.params });
-});
-
 router.post('/', function(req, res, next) {
   res.send({ title: 'Create Team' });
 });
 
-router.put('/', function(req, res, next) {
+router.put('/:name', function(req, res, next) {
   res.send({ title: 'modify Team' });
+});
+
+router.get('/:name', function(req, res, next) {
+  res.send({ title: 'Team data', ...req.params });
 });
 
 router.delete('/:name', function(req, res, next) {
