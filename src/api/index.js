@@ -4,8 +4,7 @@ var user = require('./User/api/index')
 
 var router = express.Router();
 
-/* GET home page. */
-router.use('/api/trainer',trainer)
-router.use('/api/user',user)
+router.use('/trainer',trainer)
+router.use('/user',user)
 
 module.exports = router;

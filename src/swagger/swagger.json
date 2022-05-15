@@ -1,0 +1,61 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Pokemon Trainer API",
+      "description": "Este es el swagger para mantener la documentacion de la pokemon api",
+      "version": "1.0"
+    },
+    "basePath": "/api",
+    "produces": ["application/json"],
+    "paths": {
+      "/user/signup":{
+        "post": {
+          "tags": ["User"]
+        }
+      },
+      "/user/login":{
+        "post": {
+          "tags": ["User"]
+        }
+      },
+      "/trainer/pokemon":{
+        "get": {
+          "tags": ["Pokemon"]
+        }
+      },
+      "/trainer/pokemon/capture":{
+        "post": {
+          "tags": ["Pokemon"]
+        }
+      },
+      "/trainer/pokemon/{name}":{
+        "post": {
+          "tags": ["Pokemon"]
+        }
+      },
+      "/trainer/pokemon/{name}/release":{
+        "delete": {
+          "tags": ["Pokemon"]
+        }
+      },
+      "/trainer/team/":{
+        "post":{
+          "tags": ["Team"]
+        },
+        "get": {
+          "tags": ["Team"]
+        }
+      },
+      "/trainer/team/{name}":{
+        "put":{
+          "tags": ["Team"]
+        },
+        "get": {
+          "tags": ["Team"]
+        },
+        "delete": {
+          "tags": ["Team"]
+        }
+      }
+    }
+ }
