@@ -1,12 +1,30 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
       "title": "Pokemon Trainer API",
       "description": "Este es el swagger para mantener la documentacion de la pokemon api",
       "version": "1.0"
     },
-    "basePath": "/api",
-    "produces": ["application/json"],
+    "tags": [
+      {
+        "name": "Trainer/Team",
+        "description": "Las operaciones relacionadas a la administracion de los equipos del entrenador"
+      },
+      {
+        "name": "Trainer/Pokemon",
+        "description": "Las operaciones relacionadas a la administracion de los pokemons del entrenador"
+      },
+      {
+        "name": "User",
+        "description": "Operaciones de autenticacion y registro de usuarios"
+      }
+    ],
+    "servers": [
+      {
+        "url": "http://localhost:3000/api",
+        "description": "Local server"
+      }
+    ],
     "paths": {
       "/user/signup":{
         "post": {
@@ -20,41 +38,41 @@
       },
       "/trainer/pokemon":{
         "get": {
-          "tags": ["Pokemon"]
+          "tags": ["Trainer/Pokemon"]
         }
       },
       "/trainer/pokemon/capture":{
         "post": {
-          "tags": ["Pokemon"]
+          "tags": ["Trainer/Pokemon"]
         }
       },
       "/trainer/pokemon/{name}":{
         "post": {
-          "tags": ["Pokemon"]
+          "tags": ["Trainer/Pokemon"]
         }
       },
       "/trainer/pokemon/{name}/release":{
         "delete": {
-          "tags": ["Pokemon"]
+          "tags": ["Trainer/Pokemon"]
         }
       },
       "/trainer/team/":{
         "post":{
-          "tags": ["Team"]
+          "tags": ["Trainer/Team"]
         },
         "get": {
-          "tags": ["Team"]
+          "tags": ["Trainer/Team"]
         }
       },
       "/trainer/team/{name}":{
         "put":{
-          "tags": ["Team"]
+          "tags": ["Trainer/Team"]
         },
         "get": {
-          "tags": ["Team"]
+          "tags": ["Trainer/Team"]
         },
         "delete": {
-          "tags": ["Team"]
+          "tags": ["Trainer/Team"]
         }
       }
     }
