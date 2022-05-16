@@ -2,9 +2,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var swagger = require('./swagger/index')
+var swagger = require('./api/swagger')
 
-var indexRouter = require('./api/index');
+var indexRouter = require('./api');
 
 var app = express();
 
