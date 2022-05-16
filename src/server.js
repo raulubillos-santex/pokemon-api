@@ -7,7 +7,8 @@
  var app = require('./app');
  var debug = require('debug')('pokemon-api:server');
  var http = require('http');
- 
+
+var dotenv = require('dotenv')
  /**
   * Get port from environment and store in Express.
   */
@@ -25,6 +26,7 @@
   * Listen on provided port, on all network interfaces.
   */
  
+dotenv.config()
  server.listen(port);
  server.on('error', onError);
  server.on('listening', onListening);
