@@ -7,7 +7,7 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-  res.send({ title: 'User login',...req.body});
+  res.send({ title: 'User login', ...req.body});
 });
 
 module.exports = router;

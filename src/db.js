@@ -92,4 +92,9 @@ TrainerModel.hasMany(PokemonModel,{foreignKey:"TrainerId"})
 
 
 
-module.exports=sequelize
+module.exports={
+    sequelize,
+    PokemonModel,
+    TrainerModel,
+    TeamModel
+}
