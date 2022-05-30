@@ -9,7 +9,7 @@ var debug = require('debug')('pokemon-api:server');
 var http = require('http');
 var dotenv = require('dotenv');
 dotenv.config()
-var sequelize = require('./db');
+var {sequelize} = require('./db');
 /**
 * Get port from environment and store in Express.
 */
