@@ -1,79 +1,810 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "Pokemon Trainer API",
-      "description": "Este es el swagger para mantener la documentacion de la pokemon api",
-      "version": "1.0"
+        "title": "Pokemon Trainer API",
+        "description": "Este es el swagger para mantener la documentacion de la pokemon api",
+        "version": "1.0"
     },
-    "tags": [
-      {
-        "name": "Trainer/Team",
-        "description": "Las operaciones relacionadas a la administracion de los equipos del entrenador"
-      },
-      {
-        "name": "Trainer/Pokemon",
-        "description": "Las operaciones relacionadas a la administracion de los pokemons del entrenador"
-      },
-      {
-        "name": "User",
-        "description": "Operaciones de autenticacion y registro de usuarios"
-      }
+    "components": {
+        "schemas": {
+            "GeneralErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string",
+                        "enum": [
+                            "GENERAL_ERROR"
+                        ]
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserSignupBody": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ],
+                        "required": true
+                    },
+                    "age": {
+                        "type": "integer",
+                        "minimun": 10,
+                        "required": true
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 8,
+                        "pattern": "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,]).{8,}$/"
+                    }
+                }
+            },
+            "UserSignupResponse": {
+                "type": "object",
+                "properties": {
+                    "trainerId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserSignupBadRequestResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "WRONG_PASSWORD_FORMAT",
+                                "WRONG_GENDER",
+                                "UNDERAGE",
+                                "PARAMETER_MISSING"
+                            ]
+                        }
+                    }
+                }
+            },
+            "UserLoginBody": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "trainerId": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "UserLoginResponse": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserLoginBadRequest": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "WRONG_PASSWORD_FORMAT"
+                            ]
+                        }
+                    }
+                }
+            },
+            "UserLoginUnauthorized": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "WRONG_PASSWORD_USERNAME",
+                                "NON_EXISTENT_USER"
+                            ]
+                        }
+                    }
+                }
+            },
+            "Pokemon": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "NORMAL ",
+                            "FIRE",
+                            "WATER",
+                            "PLANT",
+                            "ELECTRIC",
+                            "ICE",
+                            "FIGHT",
+                            "POISON",
+                            "EARTH",
+                            "FLIYING",
+                            "PSYCHIC",
+                            "BUG",
+                            "ROCK",
+                            "GHOST",
+                            "DRAGON",
+                            "SINISTER",
+                            "STEEL",
+                            "FAIRY"
+                        ]
+                    },
+                    "level": {
+                        "type": "integer",
+                        "minimun": 1,
+                        "maximun": 100
+                    },
+                    "strength": {
+                        "type": "string"
+                    },
+                    "vitality": {
+                        "type": "string"
+                    },
+                    "speed": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TrainerPokemonGetResponse": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Pokemon"
+                }
+            },
+            "TrainerPokemonCaptureBody": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "pokemonType": {
+                        "type": "string"
+                    },
+                    "level": {
+                        "type": "integer",
+                        "minimun": 1,
+                        "maximun": 100
+                    }
+                }
+            },
+            "TrainerPokemonCaptureResponse": {
+                "$ref": "#/components/schemas/Pokemon"
+            },
+            "TrainerPokemonCaptureNotFound": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string",
+                        "enum": [
+                            "POKEMON_NOT_FOUND"
+                        ]
+                    }
+                }
+            },
+            "TrainerPokemonNameDeleteNotFound": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string",
+                        "enum": [
+                            "POKEMON_NOT_FOUND"
+                        ]
+                    }
+                }
+            },
+            "TrainerPokemonNameGetResponse": {
+                "$ref": "#/components/schemas/Pokemon"
+            },
+            "TrainerPokemonNameGetNotFound": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string",
+                        "enum": [
+                            "POKEMON_NOT_FOUND"
+                        ]
+                    }
+                }
+            },
+            "TrainerPokemonTeamPostBody": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "pokemonList": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "TrainerPokemonTeamPostBadRequest": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "POKEMON_NOT_FOUND",
+                                "TEAM_EXIST"
+                            ]
+                        }
+                    },
+                    "errorInformation": {
+                        "type": "object"
+                    }
+                }
+            },
+            "TrainerPokemonTeamGetResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "pokemonList": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/Pokemon"
+                            }
+                        }
+                    }
+                }
+            },
+            "TrainerPokemonTeamNamePutBody": {
+                "type": "object",
+                "properties": {
+                    "pokemonList": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "replacement": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "TrainerPokemonTeamPutBadRequest": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "POKEMON_NOT_FOUND"
+                            ]
+                        }
+                    },
+                    "errorInformation": {
+                        "type": "object"
+                    }
+                }
+            },
+            "TrainerPokemonTeamNameGetResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "pokemonList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Pokemon"
+                        }
+                    }
+                }
+            },
+            "TrainerPokemonTeamNameGetNotFound": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string",
+                        "enum": [
+                            "TEAM_NOT_FOUND"
+                        ]
+                    }
+                }
+            },
+
+            "TrainerTeamNameDeleteNotFound": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string",
+                        "enum": [
+                            "TEAM_NOT_FOUND"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "tags": [{
+            "name": "Trainer/Team",
+            "description": "Las operaciones relacionadas a la administracion de los equipos del entrenador"
+        },
+        {
+            "name": "Trainer/Pokemon",
+            "description": "Las operaciones relacionadas a la administracion de los pokemons del entrenador"
+        },
+        {
+            "name": "User",
+            "description": "Operaciones de autenticacion y registro de usuarios"
+        }
     ],
-    "servers": [
-      {
+    "servers": [{
         "url": "http://localhost:3000/api",
         "description": "Local server"
-      }
-    ],
+    }],
     "paths": {
-      "/user/signup":{
-        "post": {
-          "tags": ["User"]
-        }
-      },
-      "/user/login":{
-        "post": {
-          "tags": ["User"]
-        }
-      },
-      "/trainer/pokemon":{
-        "get": {
-          "tags": ["Trainer/Pokemon"]
-        }
-      },
-      "/trainer/pokemon/capture":{
-        "post": {
-          "tags": ["Trainer/Pokemon"]
-        }
-      },
-      "/trainer/pokemon/{name}":{
-        "post": {
-          "tags": ["Trainer/Pokemon"]
-        }
-      },
-      "/trainer/pokemon/{name}/release":{
-        "delete": {
-          "tags": ["Trainer/Pokemon"]
-        }
-      },
-      "/trainer/team/":{
-        "post":{
-          "tags": ["Trainer/Team"]
+        "/user/signup": {
+            "post": {
+                "description": "Creacion de cuenta del entrenador",
+                "tags": ["User"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserSignupBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupBadRequestResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
-        "get": {
-          "tags": ["Trainer/Team"]
-        }
-      },
-      "/trainer/team/{name}":{
-        "put":{
-          "tags": ["Trainer/Team"]
+        "/user/login": {
+            "post": {
+                "tags": ["User"],
+                "description": "Login para el entrenador",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLoginBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserLoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserLoginBadRequest"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserLoginUnauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
-        "get": {
-          "tags": ["Trainer/Team"]
+        "/trainer/pokemon": {
+            "get": {
+                "tags": ["Trainer/Pokemon"],
+                "description": "Obtener lista de pokemons del entrenador",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "example": []
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
-        "delete": {
-          "tags": ["Trainer/Team"]
+        "/trainer/pokemon/capture": {
+            "post": {
+                "tags": ["Trainer/Pokemon"],
+                "description": "Captura de pokemon",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TrainerPokemonCaptureBody"
+                            }
+                        }
+                    }
+                },
+
+                "responses": {
+
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonCaptureResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonCaptureNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainer/pokemon/{name}": {
+            "parameters": [{
+                "in": "path",
+                "name": "name",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }],
+            "delete": {
+
+                "tags": ["Trainer/Pokemon"],
+                "description": "Liberar pokemon y borrar relacion con el entrenador",
+                "responses": {
+                    "200": {},
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonNameDeleteNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Trainer/Pokemon"],
+                "description": "Obtener un pokemon en especifico",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonNameGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonNameGetNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainer/team/": {
+            "post": {
+                "tags": ["Trainer/Team"],
+                "description": "Create team with pokemons",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TrainerPokemonTeamPostBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonTeamPostBadRequest"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Trainer/Team"],
+                "description": "Get Team List",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonTeamGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "example": []
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainer/team/{name}": {
+            "parameters": [{
+                "in": "path",
+                "name": "name",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }],
+            "put": {
+                "tags": ["Trainer/Team"],
+                "description": "Update Team",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TrainerPokemonTeamNamePutBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {},
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonTeamPutBadRequest"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Trainer/Team"],
+                "description": "Update Team",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonTeamNameGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerPokemonTeamNameGetNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Trainer/Team"],
+                "description": "Eliminar equipo",
+                "responses": {
+                    "200": {},
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainerTeamNameDeleteNotFound"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
     }
- }
+}
