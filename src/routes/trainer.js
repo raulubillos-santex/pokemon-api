@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var pokemon = require('./Pokemon/api/index')
-var team = require('./Team/api/index')
+var pokemon = require('./pokemon')
+var team = require('./team')
 
 /* GET home page. */
 router.use('/pokemon', pokemon);
