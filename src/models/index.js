@@ -70,9 +70,6 @@ const TrainerModel = sequelize.define('Trainer', {
     Name:{
         type:DataTypes.TEXT
     },
-    Surname:{
-        type:DataTypes.TEXT
-    },
     Gender:{
         type:DataTypes.CHAR
     },
