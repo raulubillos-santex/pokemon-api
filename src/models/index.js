@@ -1,95 +1,94 @@
-
-const {Sequelize, DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: process.env.DBTYPE || 'mysql',
-    host: process.env.DBHOST,
-    port: process.env.DBPORT,
-    username: process.env.DBUSER,
-    password: process.env.DBPASSWORD,
-    database:process.env.DBSCHEMA,
+    host: 'localhost',
+    port: 3306,
+    username: 'node',
+    password: 'nodeapp',
+    database: 'pokemon',
 })
 
 const PokemonModel = sequelize.define('Pokemon', {
-    Id:{
-        primaryKey:true,
+    Id: {
+        primaryKey: true,
         type: DataTypes.UUID
     },
-    Name:{
+    Name: {
         type: DataTypes.TEXT
     },
-    Type:{
-        type:DataTypes.TEXT
+    Type: {
+        type: DataTypes.TEXT
     },
-    Level:{
-        type:DataTypes.INTEGER
+    Level: {
+        type: DataTypes.INTEGER
     },
-    Strength:{
-        type:DataTypes.INTEGER
+    Strength: {
+        type: DataTypes.INTEGER
     },
-    Vitality:{
-        type:DataTypes.INTEGER
+    Vitality: {
+        type: DataTypes.INTEGER
     },
-    Speed:{
-        type:DataTypes.INTEGER
+    Speed: {
+        type: DataTypes.INTEGER
     },
-    TeamId:{
-        type:DataTypes.UUID
+    TeamId: {
+        type: DataTypes.UUID
     },
-    TrainerId:{
-        type:DataTypes.UUID
+    TrainerId: {
+        type: DataTypes.UUID
     }
-}, {tableName:"Pokemon"});
+}, { tableName: "Pokemon" });
 
 const TeamModel = sequelize.define('Team', {
-    Id:{
-        primaryKey:true,
+    Id: {
+        primaryKey: true,
         type: DataTypes.UUID
     },
-    Name:{
+    Name: {
         type: DataTypes.TEXT
     },
-    CreationDate:{
+    CreationDate: {
         type: DataTypes.DATE
     },
-    TrainerId:{
+    TrainerId: {
         type: DataTypes.UUID
     }
-}, {tableName:"Team"});
+}, { tableName: "Team" });
 
-TeamModel.hasMany(PokemonModel,{foreignKey:"TeamId"});
+TeamModel.hasMany(PokemonModel, { foreignKey: "TeamId" });
 
 const TrainerModel = sequelize.define('Trainer', {
-    Id:{
-        primaryKey:true,
+    Id: {
+        primaryKey: true,
         type: DataTypes.UUID
     },
-    TrainerId:{
+    TrainerId: {
         type: DataTypes.TEXT
     },
-    Name:{
-        type:DataTypes.TEXT
+    Name: {
+        type: DataTypes.TEXT
     },
-    Gender:{
-        type:DataTypes.CHAR
+    Gender: {
+        type: DataTypes.CHAR
     },
-    Age:{
-        type:DataTypes.INTEGER
+    Age: {
+        type: DataTypes.INTEGER
     },
-    Password:{
-        type:DataTypes.TEXT
+    Password: {
+        type: DataTypes.TEXT
     },
-    Region:{
-        type:DataTypes.TEXT
+    Region: {
+        type: DataTypes.TEXT
     }
-}, {tableName:"Trainer"});
+}, { tableName: "Trainer" });
 
-TrainerModel.hasMany(TeamModel,{foreignKey:"TrainerId"})
-TrainerModel.hasMany(PokemonModel,{foreignKey:"TrainerId"})
+TrainerModel.hasMany(TeamModel, { foreignKey: "TrainerId" })
+TrainerModel.hasMany(PokemonModel, { foreignKey: "TrainerId" })
 
 
 
-module.exports={
+module.exports = {
     sequelize,
     PokemonModel,
     TrainerModel,

@@ -1,15 +1,8 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
-var app = require('../app');
-var debug = require('debug')('pokemon-api:server');
-var http = require('http');
 var dotenv = require('dotenv');
 dotenv.config()
+var http = require('http');
 var { sequelize } = require('../models');
+var app = require('../app');
 /**
  * Get port from environment and store in Express.
  */
