@@ -49,8 +49,11 @@ const login = (req, res, next) =>
             return next(err);
         }
         if (user) {
-            res.status(200).send({ message: 'Authenticated' })
-            return next();
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                res.status(200).send({ message: 'Authenticated' });
+                return next();
+            });
         } else {
             res.status(401).send(info)
             return next()

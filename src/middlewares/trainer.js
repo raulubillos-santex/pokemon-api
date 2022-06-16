@@ -16,13 +16,13 @@ const validateUserBody = [
     check('name').exists().withMessage((value, { req, location, path }) => {
         return {
             httpStatus: 400,
-            errorCode: 'PARAMETER_MISSING'
+            errorCode: 'NAME_MISSING'
         }
     }),
     check('gender').exists().withMessage((value, { req, location, path }) => {
         return {
             httpStatus: 400,
-            errorCode: 'PARAMETER_MISSING'
+            errorCode: 'GENDER_MISSING'
         }
     })
     .isIn(gender).withMessage((value, { req, location, path }) => {
@@ -34,7 +34,7 @@ const validateUserBody = [
     check('age').exists().withMessage((value, { req, location, path }) => {
         return {
             httpStatus: 400,
-            errorCode: 'PARAMETER_MISSING'
+            errorCode: 'AGE_MISSING'
         }
     })
     .isInt({ min: 10 }).withMessage((value, { req, location, path }) => {
@@ -46,7 +46,7 @@ const validateUserBody = [
     check('region').exists().withMessage((value, { req, location, path }) => {
         return {
             httpStatus: 400,
-            errorCode: 'PARAMETER_MISSING'
+            errorCode: 'REGION_MISSING'
         }
     })
 ];

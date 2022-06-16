@@ -183,7 +183,7 @@
                     "name": {
                         "type": "string"
                     },
-                    "pokemonType": {
+                    "specie": {
                         "type": "string"
                     },
                     "level": {
