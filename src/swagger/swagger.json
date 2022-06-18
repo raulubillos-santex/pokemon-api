@@ -132,28 +132,8 @@
                     "name": {
                         "type": "string"
                     },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "NORMAL ",
-                            "FIRE",
-                            "WATER",
-                            "PLANT",
-                            "ELECTRIC",
-                            "ICE",
-                            "FIGHT",
-                            "POISON",
-                            "EARTH",
-                            "FLIYING",
-                            "PSYCHIC",
-                            "BUG",
-                            "ROCK",
-                            "GHOST",
-                            "DRAGON",
-                            "SINISTER",
-                            "STEEL",
-                            "FAIRY"
-                        ]
+                    "specie": {
+                        "type": "string"
                     },
                     "level": {
                         "type": "integer",
