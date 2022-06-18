@@ -32,9 +32,6 @@ const PokemonModel = sequelize.define('Pokemon', {
     Speed: {
         type: DataTypes.INTEGER
     },
-    TeamId: {
-        type: DataTypes.UUID
-    },
     TrainerId: {
         type: DataTypes.UUID
     }
@@ -56,7 +53,9 @@ const TeamModel = sequelize.define('Team', {
     }
 }, { tableName: "Team" });
 
-TeamModel.hasMany(PokemonModel, { foreignKey: "TeamId" });
+PokemonModel.belongsToMany(TeamModel, { through: 'Pokemon_Teams' });
+
+TeamModel.belongsToMany(PokemonModel, { through: 'Pokemon_Teams' });
 
 const TrainerModel = sequelize.define('Trainer', {
     Id: {
@@ -83,9 +82,8 @@ const TrainerModel = sequelize.define('Trainer', {
     }
 }, { tableName: "Trainer" });
 
-TrainerModel.hasMany(TeamModel, { foreignKey: "TrainerId" })
-TrainerModel.hasMany(PokemonModel, { foreignKey: "TrainerId" })
-
+PokemonModel.belongsTo(TrainerModel, { foreignKey: 'TrainerId' });
+TeamModel.belongsTo(TrainerModel, { foreignKey: "TrainerId" });
 
 
 module.exports = {
