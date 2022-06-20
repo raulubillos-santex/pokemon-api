@@ -1,22 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var { validateCaptureBody, validatePokemonSpecie } = require('../middlewares/pokemon');
-const { validateIfNotError, isAuthenticated } = require('../middlewares/general');
-const { capture } = require('../controllers/pokemon');
+const { validateIfNotValidatorError, isAuthenticated } = require('../middlewares/general');
+const {
+    capture,
+    getPokemonListForTrainer,
+    getPokemonListByNameForTrainer,
+    release
+} = require('../controllers/pokemon');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.send({ title: 'Pokemon List' });
-});
+router.get('/', isAuthenticated, validateIfNotValidatorError, getPokemonListForTrainer);
 
-router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotError, capture);
-router.get('/:name', function(req, res, next) {
-    res.send({ title: 'Pokemon individual', ...req.params });
-});
+router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
+router.get('/:name', isAuthenticated, getPokemonListByNameForTrainer);
 
-
-router.delete('/:name/release', function(req, res, next) {
-    res.send({ title: 'Pokemon Release', ...req.params });
-});
+router.delete('/:name/release', isAuthenticated, release);
 
 module.exports = router;

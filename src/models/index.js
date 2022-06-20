@@ -17,7 +17,7 @@ const PokemonModel = sequelize.define('Pokemon', {
     Name: {
         type: DataTypes.TEXT
     },
-    Type: {
+    Specie: {
         type: DataTypes.TEXT
     },
     Level: {
