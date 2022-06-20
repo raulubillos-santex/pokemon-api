@@ -15,7 +15,7 @@ const errorHandler = (err, req, res, next) => {
     }
 }
 
-const validateIfNotError = (req, res, next) => {
+const validateIfNotValidatorError = (req, res, next) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
         return next(error.array());
@@ -33,4 +33,4 @@ const isAuthenticated = (req, res, next) => {
     return next();
 }
 
-module.exports = { errorHandler, validateIfNotError, isAuthenticated }
+module.exports = { errorHandler, validateIfNotValidatorError, isAuthenticated }
