@@ -1,24 +1,17 @@
 var express = require('express');
 var router = express.Router();
+const { postTeam, getTeamList, getTeam, putTeam, deleteTeam } = require('../controllers/team');
+const { validatePostTeam } = require('../middlewares/team');
+const { isAuthenticated, validateIfNotValidatorError } = require('../middlewares/general');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send({ title: 'Team list' });
-});
+router.get('/', isAuthenticated, getTeamList);
 
-router.post('/', function(req, res, next) {
-  res.send({ title: 'Create Team' });
-});
+router.post('/', isAuthenticated, ...validatePostTeam, validateIfNotValidatorError, postTeam);
 
-router.put('/:name', function(req, res, next) {
-  res.send({ title: 'modify Team' });
-});
+router.put('/:name', isAuthenticated, putTeam);
 
-router.get('/:name', function(req, res, next) {
-  res.send({ title: 'Team data', ...req.params });
-});
+router.get('/:name', isAuthenticated, getTeam);
 
-router.delete('/:name', function(req, res, next) {
-  res.send({ title: 'Team remove', ...req.params });
-});
+router.delete('/:name', isAuthenticated, deleteTeam);
 module.exports = router;

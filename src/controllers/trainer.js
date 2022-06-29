@@ -39,7 +39,7 @@ const userSerializer = (user, done) => {
 
 const userDeserializer = (trainerId, done) => {
     getTrainerByTrainerID(trainerId).then((trainer) => {
-        done(null, trainer)
+        return done(null, trainer)
     });
 }
 

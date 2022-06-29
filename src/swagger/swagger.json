@@ -225,6 +225,9 @@
                             "properties": {
                                 "name": {
                                     "type": "string"
+                                },
+                                "specie": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -243,9 +246,6 @@
                                 "TEAM_EXIST"
                             ]
                         }
-                    },
-                    "errorInformation": {
-                        "type": "object"
                     }
                 }
             },
