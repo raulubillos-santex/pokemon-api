@@ -2,11 +2,11 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: process.env.DBTYPE || 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'node',
-    password: 'nodeapp',
-    database: 'pokemon',
+    password: process.env.DBPASSWORD,
+    username: process.env.DBUSER,
+    database: process.env.DBSCHEMA,
+    host: process.env.DBHOST,
+    port: process.env.DBPORT
 })
 
 const PokemonModel = sequelize.define('Pokemon', {
@@ -44,9 +44,6 @@ const TeamModel = sequelize.define('Team', {
     },
     Name: {
         type: DataTypes.TEXT
-    },
-    CreationDate: {
-        type: DataTypes.DATE
     },
     TrainerId: {
         type: DataTypes.UUID
