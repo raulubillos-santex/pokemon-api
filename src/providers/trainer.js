@@ -1,6 +1,6 @@
 const { TrainerModel } = require('../models');
 
-const createTrainer = async(user) => {
+const addTrainer = async(user) => {
     try {
         const model = await TrainerModel.create(user, { isNewRecord: true });
         return model;
@@ -27,6 +27,6 @@ const getTrainerByTrainerID = async(trainerID) => {
 
 
 module.exports = {
-    createTrainer,
+    addTrainer,
     getTrainerByTrainerID
 }

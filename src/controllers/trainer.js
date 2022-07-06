@@ -1,30 +1,15 @@
-const { encrypt } = require('../utils/encrypter');
-const { v4 } = require('uuid');
-const { createTrainer, getTrainerByTrainerID } = require('../providers/trainer');
+const { createTrainer } = require('../services/trainer')
+const { getTrainerByTrainerID } = require('../providers/trainer');
 const passport = require('passport');
 
 const signUp = async(req, res, next) => {
     try {
-        const userToCreate = {
-            Id: v4(),
-            TrainerId: v4(),
-            Name: req.body.name,
-            Gender: req.body.gender,
-            Age: req.body.age,
-            Password: encrypt(req.body.password),
-            Region: req.body.region
-        }
+        const user = await createTrainer(req.body);
 
-        const user = await createTrainer(userToCreate);
-
-        const response = {
-            TrainerId: user.get('TrainerId')
-        }
-        res.status(200).send(response);
+        res.status(200).send(user);
 
         return next();
     } catch (err) {
-        console.log('Error:', err);
         return next({
             httpStatus: 500,
             errorCode: 'GENERAL_ERROR'
@@ -61,4 +46,9 @@ const login = (req, res, next) =>
     })(req, res, next);
 
 
-module.exports = { signUp, userSerializer, userDeserializer, login }
+module.exports = { 
+    signUp, 
+    userSerializer, 
+    userDeserializer, 
+    login 
+}

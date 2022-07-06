@@ -5,14 +5,14 @@ const { validateIfNotValidatorError, isAuthenticated } = require('../middlewares
 const {
     capture,
     getPokemonListForTrainer,
-    getPokemonListByNameForTrainer,
+    getPokemonByNameForTrainer,
     release
 } = require('../controllers/pokemon');
 
 router.get('/', isAuthenticated, validateIfNotValidatorError, getPokemonListForTrainer);
 
 router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
-router.get('/:name', isAuthenticated, getPokemonListByNameForTrainer);
+router.get('/:name', isAuthenticated, getPokemonByNameForTrainer);
 
 router.delete('/:name/release', isAuthenticated, release);
 

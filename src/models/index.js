@@ -35,7 +35,9 @@ const PokemonModel = sequelize.define('Pokemon', {
     TrainerId: {
         type: DataTypes.UUID
     }
-}, { tableName: "Pokemon" });
+}, { 
+    tableName: "Pokemon"
+});
 
 const TeamModel = sequelize.define('Team', {
     Id: {

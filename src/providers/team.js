@@ -1,6 +1,6 @@
 const { TeamModel, PokemonModel } = require('../models');
 
-const createTeam = async(pokemonList, team) => {
+const insertTeam = async(pokemonList, team) => {
     const teamCreated = await TeamModel.create({
         ...team
     }, { isNewRecord: true, include: PokemonModel });
@@ -21,8 +21,8 @@ const searchTeamList = async(trainerId) => {
     return teamList;
 }
 
-const searchTeam = async(trainerId, name) => {
-    console.log(name)
+const selectTeam = async(trainerId, name) => {
+
     const team = await TeamModel.findOne({
         where: {
             TrainerId: trainerId,
@@ -64,4 +64,4 @@ const teamDelete = async(trainerId, name) => {
 
     return deleted;
 }
-module.exports = { createTeam, searchTeamList, searchTeam, updateTeam, teamDelete };
+module.exports = { insertTeam, searchTeamList, selectTeam, updateTeam, teamDelete };

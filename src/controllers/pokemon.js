@@ -1,10 +1,10 @@
 const { v4 } = require('uuid');
 const {
-    addPokemon,
-    pokemonListForTrainer,
-    pokemonByNameForTrainer,
-    deleteByPokemonName
-} = require('../providers/pokemon');
+    capturePokemon,
+    pokemonListByTrainer,
+    pokemonByTrainer,
+    deletePokemon
+} = require('../services/pokemon');
 
 function generateRandom(min = 0, max = 100) {
 
@@ -29,52 +29,24 @@ const capture = async(req, res, next) => {
         TrainerId: req.user.Id
     };
 
-    const pokemonCreated = await addPokemon(pokemon);
+    const createdPokemon = await capturePokemon(pokemon);
 
-    const mappedPokemon = {
-        name: pokemonCreated.Name,
-        specie: pokemonCreated.Type,
-        level: pokemonCreated.Level,
-        strength: pokemonCreated.Strength,
-        vitality: pokemonCreated.Vitality,
-        speed: pokemonCreated.Speed
-    }
-
-    res.status(200).send(mappedPokemon);
+    res.status(200).send(createdPokemon);
 
     return next();
 };
 
 const getPokemonListForTrainer = async(req, res, next) => {
-    const pokemonList = await pokemonListForTrainer(req.user.Id);
+    const pokemonList = await pokemonListByTrainer(req.user.Id);
 
-    const mappedPokemon = pokemonList.map((pokemon, index) => {
-        return {
-            name: pokemon.Name,
-            specie: pokemon.Type,
-            level: pokemon.Level,
-            strength: pokemon.Strength,
-            vitality: pokemon.Vitality,
-            speed: pokemon.Speed
-        }
-    });
-
-    res.status(200).send(mappedPokemon);
+    res.status(200).send(pokemonList);
     return next();
 }
 
-const getPokemonListByNameForTrainer = async(req, res, next) => {
-    const pokemon = await pokemonByNameForTrainer(req.user.Id, req.params.name);
+const getPokemonByNameForTrainer = async(req, res, next) => {
+    const pokemon = await pokemonByTrainer(req.user.Id, req.params.name);
     if (pokemon) {
-        const mappedPokemon = {
-            name: pokemon.Name,
-            specie: pokemon.Type,
-            level: pokemon.Level,
-            strength: pokemon.Strength,
-            vitality: pokemon.Vitality,
-            speed: pokemon.Speed
-        };
-        res.status(200).send(mappedPokemon);
+        res.status(200).send(pokemon);
         return next();
     }
 
@@ -86,7 +58,7 @@ const getPokemonListByNameForTrainer = async(req, res, next) => {
 }
 
 const release = async(req, res, next) => {
-    const numberOfDeletions = await deleteByPokemonName(req.user.Id, req.params.name);
+    const numberOfDeletions = await deletePokemon(req.user.Id, req.params.name);
 
     res.status(200).send({
         pokemonsReleased: numberOfDeletions
@@ -97,6 +69,6 @@ const release = async(req, res, next) => {
 module.exports = {
     capture,
     getPokemonListForTrainer,
-    getPokemonListByNameForTrainer,
+    getPokemonByNameForTrainer,
     release
 }
