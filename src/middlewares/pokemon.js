@@ -2,7 +2,7 @@ const { check } = require('express-validator');
 const { getPokemon } = require('../providers/api');
 
 const validatePokemonSpecie = async(req, res, next) => {
-    
+
     const pokemon = await getPokemon(req.body.specie);
     const pokemonData = pokemon.status !== 404 ? JSON.parse(pokemon.data) : {};
     if (pokemon.status === 404 || pokemonData.name !== req.body.specie.toLowerCase()) {
