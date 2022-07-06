@@ -2,7 +2,7 @@ const { v4 } = require('uuid');
 const { insertTeam, selectTeam, searchTeamList, updateTeam, teamDelete } = require('../providers/team');
 const { pokemonListByNameList } = require('../providers/pokemon');
 
-const createTeam = (id, name, pokemonNames) => {
+const createTeam = async (id, name, pokemonNames) => {
     const pokemonList = await pokemonListByNameList(id, pokemonNames);
     const pokemonNameList = pokemonNames;
 
@@ -34,7 +34,7 @@ const createTeam = (id, name, pokemonNames) => {
     }
 }
 
-const obtainTeam = (id, name) => {
+const obtainTeam = async (id, name) => {
     const team = await selectTeam(id, name);
 
     const mappedPokemonList = team.Pokemons.map((pokemon) => {
@@ -56,7 +56,7 @@ const obtainTeam = (id, name) => {
     return mappedTeam;
 }
 
-const obtainTeamList = (id) => {
+const obtainTeamList =async (id) => {
     const list = await searchTeamList(id);
 
     const mappedTeams = list.map((team) => {
@@ -80,7 +80,7 @@ const obtainTeamList = (id) => {
     return mappedTeams;
 }
 
-const setNewDataOnTeam = (id, newName, oldName, pokemonNames) => {
+const setNewDataOnTeam = async (id, newName, oldName, pokemonNames) => {
     const pokemonList = await pokemonListByNameList(id, pokemonNames);
 
     const pokemonNotExisting = pokemonNames.filter((name, index) => !pokemonList.find((pokemon) => pokemon.Name == name));
