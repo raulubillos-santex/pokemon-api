@@ -2,7 +2,7 @@ const { encrypt } = require('../utils/encrypter');
 const { v4 } = require('uuid');
 const { addTrainer } = require('../providers/trainer');
 
-const createTrainer = (trainerData) => { 
+const createTrainer =async (trainerData) => { 
     const userToCreate = {
         Id: v4(),
         TrainerId: v4(),
