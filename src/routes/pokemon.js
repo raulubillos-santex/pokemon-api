@@ -6,14 +6,15 @@ const {
     capture,
     getPokemonListForTrainer,
     getPokemonByNameForTrainer,
-    release
+    release,
+    getPokemonByName
 } = require('../controllers/pokemon');
 
 router.get('/', isAuthenticated, validateIfNotValidatorError, getPokemonListForTrainer);
 
 router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
 router.get('/:name', isAuthenticated, getPokemonByNameForTrainer);
-
+router.get('/:name/', isAuthenticated, getPokemonByName)
 router.delete('/:name/release', isAuthenticated, release);
 
 module.exports = router;
