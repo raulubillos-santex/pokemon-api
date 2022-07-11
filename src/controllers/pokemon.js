@@ -1,4 +1,5 @@
 const { v4 } = require('uuid');
+const { pokemonByNameForTrainer } = require('../providers/pokemon');
 const {
     capturePokemon,
     pokemonListByTrainer,
@@ -56,7 +57,21 @@ const getPokemonByNameForTrainer = async(req, res, next) => {
     });
     return next();
 }
+const getPokemonByName = async(req, res, next) => {
+    const pokemon = await pokemonByTrainer(req.user.Id, req.params.name);
+    if (pokemon) {
+        res.status(200).send({
+            "El pokemon es": pokemon.name
+        });
+        return next();
+    }
 
+    res.status(204).send({
+        httpStatus: 204,
+        errorCode: 'POKEMON_NOT_FOUND'
+    });
+    return next();
+}
 const release = async(req, res, next) => {
     const numberOfDeletions = await deletePokemon(req.user.Id, req.params.name);
 
@@ -70,5 +85,6 @@ module.exports = {
     capture,
     getPokemonListForTrainer,
     getPokemonByNameForTrainer,
-    release
+    release,
+    getPokemonByName
 }
