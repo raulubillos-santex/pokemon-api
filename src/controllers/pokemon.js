@@ -57,6 +57,20 @@ const getPokemonByNameForTrainer = async(req, res, next) => {
     return next();
 }
 
+const returnPokemonNameForTrainer = async(req, res, next) => {
+    const {name} = await pokemonByTrainer(req.user.Id, req.params.pokemonName);
+    if (name) {
+        res.status(200).send(`El pokemon es ${name}`);
+        return next();
+    }
+
+    res.status(204).send({
+        httpStatus: 204,
+        errorCode: 'POKEMON_NOT_FOUND'
+    });
+    return next();
+}
+
 const release = async(req, res, next) => {
     const numberOfDeletions = await deletePokemon(req.user.Id, req.params.name);
 
@@ -70,5 +84,6 @@ module.exports = {
     capture,
     getPokemonListForTrainer,
     getPokemonByNameForTrainer,
+    returnPokemonNameForTrainer,
     release
 }

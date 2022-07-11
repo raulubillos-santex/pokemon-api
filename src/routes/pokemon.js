@@ -6,6 +6,7 @@ const {
     capture,
     getPokemonListForTrainer,
     getPokemonByNameForTrainer,
+    returnPokemonNameForTrainer,
     release
 } = require('../controllers/pokemon');
 
@@ -13,6 +14,7 @@ router.get('/', isAuthenticated, validateIfNotValidatorError, getPokemonListForT
 
 router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
 router.get('/:name', isAuthenticated, getPokemonByNameForTrainer);
+router.get('/:pokemonName', isAuthenticated, returnPokemonNameForTrainer);
 
 router.delete('/:name/release', isAuthenticated, release);
 
