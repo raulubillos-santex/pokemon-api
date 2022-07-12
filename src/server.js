@@ -1,8 +1,8 @@
 var dotenv = require('dotenv');
 dotenv.config()
 var http = require('http');
-var { sequelize } = require('../models');
-var app = require('../app');
+var { sequelize } = require('./models');
+var app = require('./app');
 /**
  * Get port from environment and store in Express.
  */

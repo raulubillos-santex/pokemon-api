@@ -12,7 +12,8 @@ const sequelize = new Sequelize({
 const PokemonModel = sequelize.define('Pokemon', {
     Id: {
         primaryKey: true,
-        type: DataTypes.UUID
+        type: DataTypes.UUID,
+        
     },
     Name: {
         type: DataTypes.TEXT
