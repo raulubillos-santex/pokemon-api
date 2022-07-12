@@ -1,4 +1,4 @@
-const { PokemonModel } = require('../models/index');
+const { PokemonModel } = require('../models');
 const { Op } = require('sequelize')
 
 const addPokemon = async(pokemon) => {
@@ -50,7 +50,6 @@ const deleteByPokemonName = async(trainerId, name) => {
             TrainerId: trainerId
         }
     });
-
     return deleted;
 }
 

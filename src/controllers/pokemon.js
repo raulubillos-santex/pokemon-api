@@ -15,9 +15,9 @@ function generateRandom(min = 0, max = 100) {
 
     return rand;
 }
-//TODO: Añadir try catch para manejar este error
-const capture = async(req, res, next) => {
 
+const capture = async(req, res, next) => {
+    console.log('resuelve la ruta')
     const pokemon = {
         Id: v4(),
         Name: req.body.name,
@@ -37,6 +37,8 @@ const capture = async(req, res, next) => {
 };
 
 const getPokemonListForTrainer = async(req, res, next) => {
+
+    console.log('Entro al trainer');
     const pokemonList = await pokemonListByTrainer(req.user.Id);
 
     res.status(200).send(pokemonList);
