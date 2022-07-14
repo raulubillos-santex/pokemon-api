@@ -13,7 +13,7 @@ const PokemonModel = sequelize.define('Pokemon', {
     Id: {
         primaryKey: true,
         type: DataTypes.UUID,
-        
+
     },
     Name: {
         type: DataTypes.TEXT
@@ -36,7 +36,7 @@ const PokemonModel = sequelize.define('Pokemon', {
     TrainerId: {
         type: DataTypes.UUID
     }
-}, { 
+}, {
     tableName: "Pokemon"
 });
 
@@ -85,10 +85,30 @@ const TrainerModel = sequelize.define('Trainer', {
 PokemonModel.belongsTo(TrainerModel, { foreignKey: 'TrainerId' });
 TeamModel.belongsTo(TrainerModel, { foreignKey: "TrainerId" });
 
+const ProfessorModel = sequelize.define(' Professor', {
+
+    Id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        null: false
+    },
+    Name: {
+        type: DataTypes.TEXT
+    },
+    Surname: {
+        type: DataTypes.TEXT
+    },
+}, {
+    tableName: "Professor"
+});
+
+ProfessorModel.belongsTo(TrainerModel, { foreignKey: "TrainerId" });
+TrainerModel.belongsTo(ProfessorModel, { foreignKey: "ProfessorId" });
 
 module.exports = {
     sequelize,
     PokemonModel,
     TrainerModel,
-    TeamModel
+    TeamModel,
+    ProfessorModel,
 }

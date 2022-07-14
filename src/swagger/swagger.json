@@ -7,6 +7,13 @@
     },
     "components": {
         "schemas": {
+            "Professor": {
+                "type": "object",
+                "properties": {
+                    "name": "string",
+                    "surname": "string"
+                }
+            },
             "GeneralErrorResponse": {
                 "type": "object",
                 "properties": {
@@ -327,7 +334,6 @@
                     }
                 }
             },
-
             "TrainerTeamNameDeleteNotFound": {
                 "type": "object",
                 "properties": {
@@ -341,7 +347,8 @@
             }
         }
     },
-    "tags": [{
+    "tags": [
+        {
             "name": "Trainer/Team",
             "description": "Las operaciones relacionadas a la administracion de los equipos del entrenador"
         },
@@ -352,23 +359,262 @@
         {
             "name": "User",
             "description": "Operaciones de autenticacion y registro de usuarios"
+        },
+        {
+            "name": "Professor",
+            "description": "Operaciones relacionadas a la administracion de entrenadores y sus profesores"
         }
     ],
-    "servers": [{
-        "url": "http://localhost:3000/api",
-        "description": "Local server"
-    }],
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "Local server"
+        }
+    ],
     "paths": {
-        "/user/signup": {
+        "/professor": {
             "post": {
-                "description": "Creacion de cuenta del entrenador",
-                "tags": ["User"],
+                "description": "Creacion de cuenta del profesor",
+                "tags": [
+                    "Professor"
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UserSignupBody"
+                                "$ref": "#/components/schemas/Professor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupBadRequestResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{professorname}": {
+            "put": {
+                "description": "Modificacion datos del profesor",
+                "tags": [
+                    "Professor"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Professor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupBadRequestResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Eliminar datos del profesor",
+                "tags": [
+                    "Professor"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Professor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupBadRequestResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Buscar un profesor",
+                "tags": [
+                    "Professor"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Professor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupBadRequestResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{professorname}/trainers": {
+            "get": {
+                "description": "Conseguir los entrenadores de un profesor",
+                "tags": [
+                    "Professor"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Professor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSignupBadRequestResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeneralErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{professorname}/include": {
+            "get": {
+                "description": "Conseguir un include de un profesor",
+                "tags": [
+                    "Professor"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Professor"
                             }
                         }
                     }
@@ -406,7 +652,9 @@
         },
         "/user/login": {
             "post": {
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "description": "Login para el entrenador",
                 "requestBody": {
                     "required": true,
@@ -460,7 +708,9 @@
         },
         "/trainer/pokemon": {
             "get": {
-                "tags": ["Trainer/Pokemon"],
+                "tags": [
+                    "Trainer/Pokemon"
+                ],
                 "description": "Obtener lista de pokemons del entrenador",
                 "responses": {
                     "200": {
@@ -496,7 +746,9 @@
         },
         "/trainer/pokemon/capture": {
             "post": {
-                "tags": ["Trainer/Pokemon"],
+                "tags": [
+                    "Trainer/Pokemon"
+                ],
                 "description": "Captura de pokemon",
                 "requestBody": {
                     "required": true,
@@ -508,9 +760,7 @@
                         }
                     }
                 },
-
                 "responses": {
-
                     "200": {
                         "content": {
                             "application/json": {
@@ -542,17 +792,20 @@
             }
         },
         "/trainer/pokemon/{name}": {
-            "parameters": [{
-                "in": "path",
-                "name": "name",
-                "required": true,
-                "schema": {
-                    "type": "string"
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "name",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
                 }
-            }],
+            ],
             "delete": {
-
-                "tags": ["Trainer/Pokemon"],
+                "tags": [
+                    "Trainer/Pokemon"
+                ],
                 "description": "Liberar pokemon y borrar relacion con el entrenador",
                 "responses": {
                     "200": {},
@@ -577,7 +830,9 @@
                 }
             },
             "get": {
-                "tags": ["Trainer/Pokemon"],
+                "tags": [
+                    "Trainer/Pokemon"
+                ],
                 "description": "Obtener un pokemon en especifico",
                 "responses": {
                     "200": {
@@ -612,7 +867,9 @@
         },
         "/trainer/team/": {
             "post": {
-                "tags": ["Trainer/Team"],
+                "tags": [
+                    "Trainer/Team"
+                ],
                 "description": "Create team with pokemons",
                 "requestBody": {
                     "required": true,
@@ -625,9 +882,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
-
-                    },
+                    "201": {},
                     "500": {
                         "content": {
                             "application/json": {
@@ -649,7 +904,9 @@
                 }
             },
             "get": {
-                "tags": ["Trainer/Team"],
+                "tags": [
+                    "Trainer/Team"
+                ],
                 "description": "Get Team List",
                 "responses": {
                     "200": {
@@ -684,16 +941,20 @@
             }
         },
         "/trainer/team/{name}": {
-            "parameters": [{
-                "in": "path",
-                "name": "name",
-                "required": true,
-                "schema": {
-                    "type": "string"
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "name",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
                 }
-            }],
+            ],
             "put": {
-                "tags": ["Trainer/Team"],
+                "tags": [
+                    "Trainer/Team"
+                ],
                 "description": "Update Team",
                 "requestBody": {
                     "required": true,
@@ -728,7 +989,9 @@
                 }
             },
             "get": {
-                "tags": ["Trainer/Team"],
+                "tags": [
+                    "Trainer/Team"
+                ],
                 "description": "Update Team",
                 "responses": {
                     "200": {
@@ -761,7 +1024,9 @@
                 }
             },
             "delete": {
-                "tags": ["Trainer/Team"],
+                "tags": [
+                    "Trainer/Team"
+                ],
                 "description": "Eliminar equipo",
                 "responses": {
                     "200": {},
