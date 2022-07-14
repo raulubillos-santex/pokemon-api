@@ -14,7 +14,7 @@ router.get('/', isAuthenticated, validateIfNotValidatorError, getPokemonListForT
 
 router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
 router.get('/:name', isAuthenticated, getPokemonByNameForTrainer);
-router.get('/:name/', isAuthenticated, getPokemonByName)
+router.get('/:poqueName/pokename', isAuthenticated, getPokemonByName)
 router.delete('/:name/release', isAuthenticated, release);
 
 module.exports = router;
