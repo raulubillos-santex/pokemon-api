@@ -3,7 +3,7 @@ var router = express.Router();
 const { isAuthenticated } = require('../middlewares/general');
 
 const fs = require('fs');
-const { writefileDelete } = require('../controllers/file');
+const { writefileDelete, writefilePut, writefilePost, writefileGet } = require('../controllers/file');
 
 router.get('/writeFileGet',isAuthenticated, validateIfNotValidatorError, getPokemonListForTrainer);
 router.post('/writeFilePost',isAuthenticated , ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
@@ -11,47 +11,11 @@ router.put('/:pokemonName/writeFilePut',isAuthenticated, getPokemonByNameForTrai
 router.delete('/writeFileDelete',isAuthenticated, release);
 
 module.exports = router;
-router.get('/writeFileGet',isAuthenticated ,(req,res,next) => {
-    try {
-        fs.writeFile('./log',
-        "Intento recuperar el pokemon: " + req.query.pokemonName,() => {
-            console.log("Intento recuperar el pokemon: " + req.query.pokemonName)
-        });   
-        res.status(200).send("Intento recuperar el pokemon: " + req.query.pokemonName);
-        return next(); 
-    } catch (err) {
-        console.log(err);
-        next();
-    }
-});
+router.get('/writeFileGet',isAuthenticated , writefileGet);
 
-router.post('/writeFilePost',isAuthenticated ,(req,res,next) => {
-    try {
-        fs.writeFile('./log',
-        "Intento capturar el pokemon: " + req.body.pokemonName,() => {
-            console.log("Intento capturar el pokemon: " + req.body.pokemonName)
-        });   
-        res.status(200).send("Intento capturar el pokemon: " + req.body.pokemonName);
-        return next(); 
-    } catch (err) {
-        console.log(err);
-        next();
-    }
-});
+router.post('/writeFilePost',isAuthenticated , writefilePost);
 
-router.put('/:pokemonName/writeFilePut',isAuthenticated ,(req,res,next) => {
-    try {
-        fs.writeFile('./log',
-        "Intento actualizar el pokemon: " + req.params.pokemonName,() => {
-            console.log("Intento actualizar el pokemon: " + req.params.pokemonName)
-        });   
-        res.status(200).send("Intento actualizar el pokemon: " + req.params.pokemonName);
-        return next(); 
-    } catch (err) {
-        console.log(err);
-        next();
-    }
-});
+router.put('/:pokemonName/writeFilePut',isAuthenticated , writefilePut);
 
 router.delete('/writeFileDelete',isAuthenticated , writefileDelete);
 
