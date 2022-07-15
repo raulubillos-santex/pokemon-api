@@ -1,60 +1,54 @@
-const writefileDelete = (req,res,next) => {
+const fs = require('fs');
+const { getFile, putFile, deleteFile, postFile } = require('../services/file');
+
+
+const writefileDelete = async(req, res, next) => {
     try {
-        fs.writeFile('./log',
-        "Intento borrar el pokemon: " + req.params.pokemonName,() => {
-            console.log("Intento borrar el pokemon: " + req.params.pokemonName)
-        });   
+        await deleteFile(req.params.pokemonName)
         res.status(200).send("Intento borrar el pokemon: " + req.params.pokemonName);
-        return next(); 
+        return next();
     } catch (err) {
         console.log(err);
         next();
     }
 };
 
-const writefilePut = (req,res,next) => {
+const writefilePut = async(req, res, next) => {
     try {
-        fs.writeFile('./log',
-        "Intento actualizar el pokemon: " + req.params.pokemonName,() => {
-            console.log("Intento actualizar el pokemon: " + req.params.pokemonName)
-        });   
+        await putFile(req.params.pokemonName)
         res.status(200).send("Intento actualizar el pokemon: " + req.params.pokemonName);
-        return next(); 
+        return next();
     } catch (err) {
         console.log(err);
         next();
     }
 };
 
-const writefilePost = (req,res,next) => {
+const writefilePost = async (req, res, next) => {
     try {
-        fs.writeFile('./log',
-        "Intento capturar el pokemon: " + req.body.pokemonName,() => {
-            console.log("Intento capturar el pokemon: " + req.body.pokemonName)
-        });   
+        await postFile(req.body.pokemonName)
         res.status(200).send("Intento capturar el pokemon: " + req.body.pokemonName);
-        return next(); 
+        return next();
     } catch (err) {
         console.log(err);
         next();
     }
 };
 
-const writefileGet = (req,res,next) => {
-    try {
-        fs.writeFile('./log',
-        "Intento recuperar el pokemon: " + req.query.pokemonName,() => {
-            console.log("Intento recuperar el pokemon: " + req.query.pokemonName)
-        });   
-        res.status(200).send("Intento recuperar el pokemon: " + req.query.pokemonName);
-        return next(); 
-    } catch (err) {
-        console.log(err);
-        next();
-    }
+const writefileGet = async (req, res, next) => {
+    
+        const returnedMessage  = await getFile(req.query.pokemonName);
+        if(returnedMessage !== ""){
+        res.status(200).send(returnedMessage);
+        return next();
+        }else{
+            res.status(500).send("Se rompió");
+            return next();
+        }
+    
 };
 
-module.exports={
+module.exports = {
     writefileDelete,
     writefilePut,
     writefilePost,
