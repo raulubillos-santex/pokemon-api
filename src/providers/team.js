@@ -42,7 +42,7 @@ const updateTeam = async(pokemonList, newName, trainerId, name) => {
         },
         include: PokemonModel
     });
-
+    
     await team.removePokemons(team.Pokemons);
 
     await team.addPokemons(pokemonList)

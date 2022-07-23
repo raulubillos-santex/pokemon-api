@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator')
 
 const errorHandler = (err, req, res, next) => {
+    console.log('Entro al error');
     if (!Array.isArray(err)) {
         const httpStatus = err.httpStatus;
         res.status(httpStatus).json({ errorCode: err.errorCode })
@@ -16,6 +17,7 @@ const errorHandler = (err, req, res, next) => {
 }
 
 const validateIfNotValidatorError = (req, res, next) => {
+    console.log('Chequea si no hay errores');
     const error = validationResult(req);
     if (!error.isEmpty()) {
         return next(error.array());
@@ -24,6 +26,7 @@ const validateIfNotValidatorError = (req, res, next) => {
 }
 
 const isAuthenticated = (req, res, next) => {
+    console.log('entro al middleware')
     if (!req.isAuthenticated()) {
         return next({
             httpStatus: 401,
