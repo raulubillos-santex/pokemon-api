@@ -7,7 +7,7 @@ const writeFileGet = (req,res,next) => {
         res.status(200).send("Intento recuperar el pokemon: " + req.query.pokemonName);
         return next();
     }else{
-        res.status(204).send("Se rompio todo");
+        res.status(204).send("Error");
         return next();
     }
 
@@ -17,8 +17,8 @@ const writeFilePost = (req,res,next) => {
     if(returnedMessage != ""){
         res.status(200).send("Intento capturar el pokemon: " + req.query.pokemonName);
         return next();
-    }else{
-        res.status(204).send("Se rompio todo");
+    }else{ 
+        res.status(204).send("Error");
         return next();
     }
 
@@ -29,7 +29,7 @@ const writeFilePut = (req,res,next) => {
         res.status(200).send("Intento actualizar el pokemon: " + req.query.pokemonName);
         return next();
     }else{
-        res.status(204).send("Se rompio todo");
+        res.status(204).send("Error");
         return next();
     }
 };
@@ -39,7 +39,7 @@ const writeFileDelete = (req,res,next) => {
         res.status(200).send("Intento borrar el pokemon: " + req.query.pokemonName);
         return next();
     }else{
-        res.status(204).send("Se rompio todo");
+        res.status(204).send("Error");
         return next();
     }
 }
