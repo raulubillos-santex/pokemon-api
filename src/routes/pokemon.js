@@ -15,4 +15,10 @@ router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemon
 router.get('/:name', isAuthenticated, getPokemonByNameForTrainer);
 router.delete('/:name/release', isAuthenticated, release);
 
+//Added
+router.get(':pokemonName/pokename', isAuthenticated, (req, res, next) => {
+    res.status(200).send("El pokemon es: " + req.params.pokemonName);
+    return next();
+});
+
 module.exports = router;
