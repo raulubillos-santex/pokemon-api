@@ -6,6 +6,7 @@ var router = express.Router();
 
 
 router.use('/trainer', trainer)
+router.use('/file', file);
 
 router.use(errorHandler);
 module.exports = router;
