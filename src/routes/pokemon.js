@@ -10,10 +10,12 @@ const {
 } = require('../controllers/pokemon');
 
 router.get('/', isAuthenticated, validateIfNotValidatorError, getPokemonListForTrainer);
-
 router.post('/capture', isAuthenticated, ...validateCaptureBody, validatePokemonSpecie, validateIfNotValidatorError, capture);
 router.get('/:name', isAuthenticated, getPokemonByNameForTrainer);
-
 router.delete('/:name/release', isAuthenticated, release);
+router.get('/:pokemonName/pokeName', isAuthenticated, (req, res, next) =>{
+    res.status(200).send("El pokemon es: " + req.params.pokemonName);
+    return next();
+});
 
 module.exports = router;
